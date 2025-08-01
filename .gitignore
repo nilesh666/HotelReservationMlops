@@ -1,0 +1,5 @@
+.venv
+artifacts/
+logs/
+*.pkl
+*.h5
