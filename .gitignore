@@ -1,5 +1,5 @@
 .venv
-artifacts/
+HotelReservation_MLops.egg-info/
 logs/
 models/
 mlruns/
