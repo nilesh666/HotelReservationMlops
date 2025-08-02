@@ -31,6 +31,45 @@ class DataProcessor:
             df.drop_duplicates(inplace=True)
             logger.inof("Removed duplicates")
 
+            cat_cols = self.config["data_processing"]["categorical_columns"]
+            num_cols = self.config["data_processing"]["numerical_columns"]
+
+            lb = LabelEncoder()
+            mappings={}
+            for i in cat_cols:
+                df[i] = lb.fit_transform(df[i])
+                mappings[i] = {label: code for label,code in zip(lb.classes_, lb.transform(lb.classes_))}
+            logger.info("Applied label encoding")
+            logger.info("Label mappings are: ")
+            for col, maps in mappings.items():
+                logger.info(f"{col} : {maps}")
+
+            skewness_thresh = self.config["data_processing"]["skewness_threshold"]
+            skewness = df[num_cols].apply(lambda x:x.skew)
+            for col in skewness[skewness>skewness_thresh].index:
+                df[col] = np.log1p(df[col])
+            logger.inof("Removed potestial skewness from the data")
+
+            return df
+
         except Exception as e:
             logger.error("Error preprocessing the data")
             raise CustomException("Error preprocessing the data", e)
+    
+    def balance_data(self, df):
+        try:
+            x = df.drop(columns=['booking_status'], axis=1)
+            y = df['booking_status']
+
+            smote = SMOTE(random_state=42)
+            x_res, y_res = smote.fit_resample(x, y)
+            balanced_df = pd.DataFrame(x_res, columns=x.columns)
+            balanced_df['booking_status'] = y_res
+
+            return balanced_df
+
+        except CustomException as e:
+            logger.error("Error in balancing the data")
+            raise CustomException("Error in balancing the data", e)
+
+
