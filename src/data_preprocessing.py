@@ -105,7 +105,7 @@ class DataProcessor:
     
     def save_data(self, df, path):
         try:
-            df.to_csv(path)
+            df.to_csv(path, index=False)
             logger.info(f"Successfully saved the processed data to {path}")
 
         except Exception as e:

@@ -1,5 +1,6 @@
 .venv
 artifacts/
 logs/
+models/
 *.pkl
 *.h5

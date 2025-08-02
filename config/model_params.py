@@ -13,6 +13,6 @@ RANDOM_SEARCH_PARAMS = {
     'cv': 2,
     'n_jobs': -1,
     'verbose': 2,
-    'random_State': 42,
+    'random_state': 42,
     'scoring': 'accuracy'
 }
