@@ -2,5 +2,6 @@
 artifacts/
 logs/
 models/
+mlruns/
 *.pkl
 *.h5

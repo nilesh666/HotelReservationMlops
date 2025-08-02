@@ -1,6 +1,8 @@
 import os 
 import pandas as pd
 import joblib
+import mlflow
+import mlflow.sklearn
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 import lightgbm as lgb
@@ -118,13 +120,24 @@ class ModelTraining:
         
     def run(self):
         try:
+            with mlflow.start_run():
+                logger.info("Stareted model training piepline")
+                logger.info("Starting MLflow experimentation")
 
-            logger.info("Stareted model training piepline")
-            x_train, y_train, x_test, y_test = self.load_and_split_data()
-            best_model = self.train_lgbm(x_train, y_train)
-            metrics = self.evaluate_model(best_model, x_test, y_test)
-            self.save_model(best_model)
-            logger.info("Completed training pipeline successfully")
+                mlflow.log_artifact(self.train_path, artifact_path = "datasets")
+                mlflow.log_artifact(self.test_path, artifact_path = "datasets")
+
+                x_train, y_train, x_test, y_test = self.load_and_split_data()
+                best_model = self.train_lgbm(x_train, y_train)
+                metrics = self.evaluate_model(best_model, x_test, y_test)
+                self.save_model(best_model)
+
+                mlflow.log_artifact(self.model_output_path)
+                mlflow.log_params(best_model.get_params())
+                mlflow.log_metrics(metrics)
+
+
+                logger.info("Completed training pipeline successfully")
 
         except Exception as e:
             logger.error("Error in training pipeline")
