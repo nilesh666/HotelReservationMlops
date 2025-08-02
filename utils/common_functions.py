@@ -21,3 +21,12 @@ def read_yaml(file_path):
     except Exception as e:
         logger.error("Error occured in reading yaml file")
         raise CustomException("Error in reading yaml", e)
+    
+def load_data(path):
+    try:
+        logger.info("Loading the data")
+        return pd.read_csv(path)
+    
+    except Exception as e:
+        logger.error("Error occured in reading yaml file")
+        raise CustomException("Error in reading yaml", e)
