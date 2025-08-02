@@ -62,6 +62,6 @@ class DataIngestion:
             logger.error(f"Error in running data ingestion {str(ce)}")
         
 
-if __name__=="__main__":
-    d = DataIngestion(read_yaml(CONFIG_PATH))
-    d.run()
+# if __name__=="__main__":
+#     d = DataIngestion(read_yaml(CONFIG_PATH))
+#     d.run()
