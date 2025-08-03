@@ -16,6 +16,4 @@ RUN groupadd -f docker && \
 RUN mkdir -p /var/lib/docker
 VOLUME /var/lib/docker
 
-
 USER jenkins
-
