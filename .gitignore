@@ -5,3 +5,4 @@ models/
 mlruns/
 *.pkl
 *.h5
+*.json
