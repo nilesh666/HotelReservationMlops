@@ -1,8 +1,8 @@
 .venv
 HotelReservation_MLops.egg-info/
 logs/
-models/
+
 mlruns/
-*.pkl
+
 *.h5
 *.json
